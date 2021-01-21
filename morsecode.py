@@ -295,7 +295,7 @@ def main():
             print(get_help_message())
         elif answer == '0':
             morse = False
-        elif is_validated_english_sentence(answer):
+        elif is_validated_english_sentence(answer): # ., .., ..., .... -> 모스 부호, E S I H로 판단.
             print(encoding_sentence(get_cleaned_english_sentence(answer)))
         elif is_validated_morse_code(answer):
             print(decoding_sentence(answer))
