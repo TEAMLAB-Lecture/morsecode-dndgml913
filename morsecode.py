@@ -87,7 +87,7 @@ def is_validated_english_sentence(user_input):
     result = True
     exist = False
     for i in user_input:
-        if i in [' ', '.', ',', '!', '?']:
+        if i in " .,!?":
             pass
         elif i >= 'A' and i <= 'Z' or i >= 'a' and i <= 'z':
             exist = True
@@ -159,7 +159,7 @@ def get_cleaned_english_sentence(raw_english_sentence):
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     result = "".join([i for i in raw_english_sentence.strip() \
-              if i not in ['.', ',', '!', '?']]).strip()
+              if i not in ".,!?"]).strip()
     return result
     # ==================================
 
@@ -257,7 +257,7 @@ def decoding_sentence(morse_sentence): # 양쪽 공백은 없어야 한다? 생�
     # ==================================
 
 
-def encoding_sentence(english_sentence): # 단어 간 띄어쓰기를 1개로 먼저 표준화한다.
+def encoding_sentence(english_sentence): # 단어 간 띄어쓰기를 1개로 먼저 표준화한다. # 실제로 받는 건 raw 문장이다.
     """
     Input:
         - english_sentence : 문자열 값으로 모스 부호로 변환이 가능한 영어문장
@@ -278,7 +278,8 @@ def encoding_sentence(english_sentence): # 단어 간 띄어쓰기를 1개로 �
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     result = "".join([encoding_character(i)+' ' if i is not ' ' \
-        else ' ' for i in " ".join([j for j in english_sentence.split() if j is not ''])]).strip()
+        else ' ' for i in " ".join([j for j in get_cleaned_english_sentence(
+            english_sentence).split() if j is not ''])]).strip()
 
     return result
     # ==================================
@@ -296,7 +297,7 @@ def main():
         elif answer == '0':
             morse = False
         elif is_validated_english_sentence(answer): # ., .., ..., .... -> 모스 부호, E S I H로 판단.
-            print(encoding_sentence(get_cleaned_english_sentence(answer)))
+            print(encoding_sentence(answer))
         elif is_validated_morse_code(answer):
             print(decoding_sentence(answer))
         else:
